@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Quote Generator</title>
+    <style>
+        /* General Styles */
+        body {
+            background-color: #1a1a1a;
+            color: white;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .quote-container {
+            background-color: #333;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .quote {
+            font-size: 24px;
+            font-weight: 400;
+            font-style: italic;
+            margin-bottom: 20px;
+            color: #ccc;
+            line-height: 1.5;
+        }
+
+        .author {
+            font-size: 20px;
+            font-weight: 600;
+            color: #f1f1f1;
+            margin-top: 10px;
+        }
+
+        #quoteButton {
+            width: 50px; /* Set the width of the image */
+            height: 50px; /* Set the height of the image */
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+            display: block;
+            margin: 20px auto 0;
+        }
+
+        #quoteButton:hover {
+            opacity: 0.8; /* Slight fade effect on hover */
+        }
+        
+    </style>
+</head>
+<body>
+
+    <div class="quote-container">
+        <div id="quoteDisplay" class="quote">Loading...</div>
+        <div id="authorDisplay" class="author">- Loading...</div>
+        <!-- Replaced button with image -->
+        <img id="quoteButton" src="button.png" alt="Get a Quote" onclick="generateQuote()" /> <!-- Replace with your PNG file path -->
+    </div>
+
+    <script>
+        // Function to load the JSON file and parse it
+        async function loadJSON() {
+            const response = await fetch('quotes.json');  // Path to your quotes.json file
+            const quotes = await response.json();  // Parse the JSON content
+            return quotes;
+        }
+
+        // Function to display a random quote
+        async function generateQuote() {
+            const quotes = await loadJSON();  // Load quotes from the JSON file
+            const randomIndex = Math.floor(Math.random() * quotes.length);
+            const randomQuote = quotes[randomIndex];
+
+            const quoteDisplay = document.getElementById('quoteDisplay');
+            const authorDisplay = document.getElementById('authorDisplay');
+            
+            quoteDisplay.innerHTML = `"${randomQuote.quote}"`;
+            authorDisplay.innerHTML = `- ${randomQuote.author}`;
+        }
+
+        // Initial quote generation
+        generateQuote();
+    </script>
+
+</body>
+</html>
